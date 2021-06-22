@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import AppHeader from './AppHeader';
+import MicroFrontend from './MicroFrontend';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const { REACT_APP_ONE: AppOneHost, REACT_APP_TWO: AppTwoHost } = process.env;
+
+const AppOne = ({ history }) => (
+  <MicroFrontend history={history} host={AppOneHost} name="AppOne" />
+);
+const AppTwo = ({ history }) => (
+  <MicroFrontend history={history} host={AppTwoHost} name="AppTwo" />
+);
+
+const App = () => (
+  <BrowserRouter>
+    <React.Fragment>
+      <AppHeader />
+      <Switch>
+        <Route exact path="/one" component={AppOne} />
+        <Route exact path="/two" component={AppTwo} />
+      </Switch>
+    </React.Fragment>
+  </BrowserRouter>
+);
 
 export default App;
